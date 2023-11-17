@@ -2,48 +2,89 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Inbox</ion-title>
+        <ion-buttons slot="start">
+          <ion-menu-button color="primary"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Chat App</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
+      <div id="container">
+        <strong class="capitalize">Select a chat, create or join a chat room</strong>
+      </div>
+      <ion-button expand="block" color="secondary" @click="openModal(true)">Create Chat Room</ion-button>
 
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Inbox</ion-title>
-        </ion-toolbar>
-      </ion-header>
+      <ion-modal :is-open="modalOpen" @didDismiss="openModal(false)" >
+        <ion-header>
+          <ion-toolbar>
+            <ion-title> New Chat Room </ion-title>
+            <ion-buttons slot="end">
+              <ion-button @click="openModal(false)">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-list>
+            <ion-item>
+              <ion-input labelPlacement="floating" label="Name"  v-model="newChatRoomNameInput"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="secondary" @click="CreateNewChatRoom()" > Create Room </ion-button>
+        </ion-content>
+      </ion-modal>
 
-      <ion-list>
-        <MessageListItem v-for="message in messages" :key="message.id" :message="message" />
-      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import {
+  IonButtons,
   IonContent,
-  IonHeader,
-  IonList,
+  IonHeader, IonInput, IonItem,
+  IonList, IonMenuButton,
   IonPage,
   IonRefresher,
   IonRefresherContent,
   IonTitle,
   IonToolbar,
+    IonModal,
+    IonButton,
+    IonSplitPane,
+    IonMenu,
 } from '@ionic/vue';
-import MessageListItem from '@/components/MessageListItem.vue';
-import { getMessages, Message } from '@/data/messages';
+
 import { ref } from 'vue';
+import router from "@/router";
+import global_service from "@/services/global_service";
+import {ChatAs, getUser, NewChatRoom} from "@/services/api_service";
+import {GetJoinedChatRoom} from "@/components/ChatMenu.vue";
+const newChatRoomNameInput = ref("")
+const modalOpen = ref(false)
 
-const messages = ref<Message[]>(getMessages());
+const openModal = (open:boolean) => {
+  modalOpen.value = open;
+  newChatRoomNameInput.value = "";
+}
+async function CreateNewChatRoom(): Promise<void>{
+  global_service.showLoading();
+  const body = { name: newChatRoomNameInput.value, user_id: getUser().id}
+  const response = await NewChatRoom(body);
+  if (response) {
+    global_service.hideLoading();
+    openModal(false);
+    location.reload(true);
+  } else {
+    global_service.hideLoading();
+    global_service.showToast(response.message);
+  }
+}
 
-const refresh = (ev: CustomEvent) => {
-  setTimeout(() => {
-    ev.detail.complete();
-  }, 3000);
-};
+//
+// const refresh = (ev: CustomEvent) => {
+//   setTimeout(() => {
+//     ev.detail.complete();
+//   }, 3000);
+// };
 </script>
