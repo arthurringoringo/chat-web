@@ -1,0 +1,7 @@
+{
+  "name": "chat-web",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
