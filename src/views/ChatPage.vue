@@ -62,7 +62,7 @@ async function sendNewChat(): Promise<void>{
     }
 }
 
-const cable = ActionCable.createConsumer('ws://0.0.0.0:3000/cable'); // Replace with your server URL
+const cable = ActionCable.createConsumer('wss://chat-api.arthurringo.com/cable'); // Replace with your server URL
 
 const channel = cable.subscriptions.create( { channel: 'ChatChannel', user_id: getUser().id }, {
   connected() {

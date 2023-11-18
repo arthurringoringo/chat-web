@@ -1,4 +1,4 @@
-export const API_ENDPOINT = 'http://localhost:3000';
+export const API_ENDPOINT = 'https://chat-api.arthurringo.com';
 import store from '@/store';
 import {computed, ComputedRef} from 'vue';
 import {ApiError} from "@/utils/custom_error";
@@ -40,7 +40,7 @@ export async function callApi({
 
 export async function IndexUser(body: Record<string,string>): Promise<Promise<any> | Promise<ApiError>>{
     try {
-        const response =  await callApi({route: "/users",method: "GET"});
+        const response =  await callApi({route: "users",method: "GET"});
         const json_response = await response.json()
         if (!response.ok) {
             return new ApiError(json_response.error);
