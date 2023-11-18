@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IonPopover,IonButton,IonList,IonNote,IonItem,IonFooter,IonText,IonLabel,IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonButtons, IonMenuButton, IonInput} from '@ionic/vue';
+import {IonPopover,IonBadge,IonButton,IonList,IonNote,IonItem,IonFooter,IonText,IonLabel,IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonButtons, IonMenuButton, IonInput} from '@ionic/vue';
 import {onMounted, ref, onUpdated} from "vue";
 import global_service from "@/services/global_service";
 import {ChatRoomDetails, getUser, IndexChatRoomMessages, IndexUser, SendMessage} from "@/services/api_service";
