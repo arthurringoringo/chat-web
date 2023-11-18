@@ -59,7 +59,6 @@ import { ref } from 'vue';
 import router from "@/router";
 import global_service from "@/services/global_service";
 import {ChatAs, getUser, NewChatRoom} from "@/services/api_service";
-import {GetJoinedChatRoom} from "@/components/ChatMenu.vue";
 const newChatRoomNameInput = ref("")
 const modalOpen = ref(false)
 
@@ -69,12 +68,12 @@ const openModal = (open:boolean) => {
 }
 async function CreateNewChatRoom(): Promise<void>{
   global_service.showLoading();
-  const body = { name: newChatRoomNameInput.value, user_id: getUser().id}
+  const body: Record<string, any> = { name: newChatRoomNameInput.value, user_id: getUser().id}
   const response = await NewChatRoom(body);
   if (response) {
     global_service.hideLoading();
     openModal(false);
-    location.reload(true);
+    location.reload();
   } else {
     global_service.hideLoading();
     global_service.showToast(response.message);

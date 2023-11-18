@@ -16,14 +16,14 @@ import ActionCable from 'actioncable';
 onMounted(async() => {
   await GetChatRoomDetails();
   await GetChatRoomMessages();
-  chatListRef.value = document.querySelector('.chat-list');
+  // chatListRef.value = document.querySelector('.chat-list');
 })
 
-onUpdated(() => {
-  // Scroll to the bottom when new messages are added
-  if (chatListRef.value) {
-    chatListRef.value.scrollTop = chatListRef.value.scrollHeight;
-  }});
+// onUpdated(() => {
+//   // Scroll to the bottom when new messages are added
+//   if (chatListRef.value) {
+//     chatListRef.value.scrollTop = chatListRef.value.scrollHeight;
+//   }});
 async function GetChatRoomDetails(): Promise<void>{
   global_service.showLoading();
   if(!roomChatDetails.value) {
@@ -53,7 +53,7 @@ async function GetChatRoomMessages(): Promise<void>{
 }
 
 async function sendNewChat(): Promise<void>{
-  const body = {text: messageInput.value, room_id: route.params.id, sender_id: getUser().id}
+  const body: Record<string, any> = {text: messageInput.value, room_id: route.params.id, sender_id: getUser().id}
   const response = await SendMessage(body);
   if (response) {
     messageInput.value = "";
@@ -71,7 +71,7 @@ const channel = cable.subscriptions.create( { channel: 'ChatChannel', user_id: g
   disconnected() {
     console.log('WebSocket Disconnected');
   },
-  received(data) {
+  received(data: any) {
     if (data.room_id == route.params.id){
       roomChatMessages.value.push(data)
     }

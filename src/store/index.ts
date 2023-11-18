@@ -7,7 +7,7 @@ export default createStore({
     state: {
         isLoading: false,
         toastMessage: '',
-        currentUser: null,
+        currentUser: {},
     },
     mutations: {
         setLoading(state, isLoading: boolean) {

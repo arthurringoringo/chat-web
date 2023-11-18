@@ -38,7 +38,7 @@ export async function callApi({
 //     handle error in service
 }
 
-export async function IndexUser(body: Record<string,string>): Promise<Promise<any> | Promise<ApiError>>{
+export async function IndexUser(): Promise<Promise<any> | Promise<ApiError>>{
     try {
         const response =  await callApi({route: "users",method: "GET"});
         const json_response = await response.json()
@@ -70,7 +70,7 @@ export async function IndexChatRoom(): Promise<Promise<any> | Promise<ApiError>>
     }
 }
 
-export async function IndexChatRoomMessages(id: number): Promise<Promise<any> | Promise<ApiError>>{
+export async function IndexChatRoomMessages(id: string | string[]): Promise<Promise<any> | Promise<ApiError>>{
     try {
         const response =  await callApi({route: "chat_room/"+ id +"/messages",method: "GET"});
         const json_response = await response.json()
@@ -86,7 +86,7 @@ export async function IndexChatRoomMessages(id: number): Promise<Promise<any> | 
     }
 }
 
-export async function ChatRoomDetails(id: number): Promise<Promise<any> | Promise<ApiError>>{
+export async function ChatRoomDetails(id: string | string[]): Promise<Promise<any> | Promise<ApiError>>{
     try {
         const response =  await callApi({route: "chat_rooms/"+id,method: "GET"});
         const json_response = await response.json()
