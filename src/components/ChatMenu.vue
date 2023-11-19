@@ -62,8 +62,11 @@ const responseIndex = ref();
 const chatRoomResponse = ref();
 const allChatRoomResponse = ref();
 const isModalOpen = ref(false);
-const openModal = (open:boolean) => {
+const openModal = async (open:boolean) => {
+  global_service.showLoading();
+  await GetChatRoom();
   isModalOpen.value = open;
+  global_service.hideLoading();
 }
 
 // const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -77,7 +80,6 @@ onMounted(async() => {
   } else {
     await GetJoinedChatRoom();
   }
-  await GetChatRoom();
   global_service.hideLoading();
 
 })
